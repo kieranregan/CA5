@@ -1,6 +1,7 @@
 import unittest
+import types
 
-from CA5 import add, divide, exponent, ReduceMultiply, multiplyLambda, multiply#, subtract, squared, cube, factorial, mean, decimalFraction
+from CA5 import add, divide, exponent, reduceMultiply, multiply, subtract, subtractLambda, squared, cubed, odd, even, factorial, mean, decimalFractionGenerator
 
 class CalculatorTest(unittest.TestCase):
 
@@ -27,64 +28,69 @@ class CalculatorTest(unittest.TestCase):
         self.assertEqual([0.125], exponent([2],[-3]))
         self.assertEqual([0], exponent([0], [2]))
         
-    #def testMutiplyReducer(self):
-        #self.assertEqual(24, ReduceMultiply([1,2,3,4]))
-        
-    #def testMultiplyLAMB(self):
-     #   self.assertEqual(20,90,18,8, multiplyLambda([5,10,6,4],[4,9,3,2]))
-        
-    def testMultiply(self):
-         #self.assertEqual([20,90,18,8], multiply([5,10,6,4], [4,9,3,2]))     #Simple Tests to check multiplication answers
+    def testMultiply(self):   #Simple Tests to check multiplication answers
+         self.assertEqual([20,90,18,8], multiply([5,10,6,4], [4,9,3,2]))#new test to check you can multiply lists
          self.assertEqual([0], multiply([5], [0]))
-         #self.assertEqual(5, multiply(5, 1))
-         #self.assertRaises(TypeError, multiply('a','b')) #Checks a type error is raised if strings are used
+         self.assertEqual([5], multiply([5], [1]))
+         self.assertRaises(TypeError, multiply(['a'],['b'])) #Checks a type error is raised if strings are used
          self.assertEqual("Value entered is not numeric", multiply(["two"], ["one"]))#Checks error message is being returend
     
+    def testReduceMultiply(self):   #Simple Tests to check multiplication answers
+         self.assertEqual(24, reduceMultiply([1,2,3,4]))
+         self.assertRaises(TypeError, reduceMultiply(['a','b']))
+         
+    def testSubtract(self):
+         self.assertEqual([1, 1, 3, 2], subtract([5,10,6,4],[4,9,3,2]))  #testing I can subtract lists
+         self.assertEqual([0], subtract([2], [2]))     #Simple tests to check subtraction answers
+         self.assertEqual(5, subtractLambda(5, 0))      #testing the simple lambda function
+         self.assertEqual(-1, subtractLambda(2, 3))
+         self.assertEqual(0.5, subtractLambda(1,0.5))
+         self.assertAlmostEqual(0.1, subtractLambda(0.5,0.4)) 
+         
+    def testSquared(self):
+         self.assertIsInstance(squared([1,2,3,4]), types.GeneratorType)
+         square = squared([2,4,6,8,10])
+         self.assertEqual(4, next(square))
+         self.assertEqual(16, next(square))
+         self.assertEqual(36, next(square))
+         self.assertEqual(64, next(square))
+         self.assertEqual(100, next(square))
+         
+         
+    def testCube(self):
+        self.assertEqual(0.027,cubed(0.3))   #simple tests to check return value is correct
+        self.assertEqual(27,cubed(3))
+        self.assertEqual(-27,cubed(-3))
+        self.assertEqual(0,cubed(0))
+        
+    def testOddandEven(self):                   #test to check the filter odd and even functions
+        self.assertEqual([1, 3, 5, 7, 9], odd([0,1,2,3,4,5,6,7,8,9,10]))
+        self.assertEqual([0, 2,4,6,8,10], even([0,1,2,3,4,5,6,7,8,9,10]))
+        
+    def testFactorial(self):
+         self.assertEqual(6, factorial(3))
+         self.assertEqual(1, factorial(1))
+         self.assertEqual("The factorial of 0 is 1", factorial(0)) #checks on screen message is displaying correctly
+         self.assertEqual(120, factorial(5))
+         self.assertEqual("Sorry, factorial does not exist for negative numbers", factorial(-5)) #checks message is raised when a negative number is entered
 
+
+    def testMean(self):
+         self.assertEqual(4, mean(5,4,3))                #simple tests on mean values returned
+         self.assertEqual(5, mean(9,8,7,6,5,4,3,2,1))
+         self.assertEqual(0.6, mean(0.4,0.6,0.8))
+         
+    def testDecimalFraction(self):
+         self.assertIsInstance(decimalFractionGenerator([1,2,3,4]), types.GeneratorType)
+         decimalFractions = decimalFractionGenerator([2,4])
+         self.assertEqual(0.5, next(decimalFractions))
+         self.assertEqual(0.25, next(decimalFractions))
+        
+         
 if __name__ == "__main__":        
     unittest.main()     
-
-
-#     def testMultiply(self):
-#         self.assertEqual(4, multiply(2, 2))     #Simple Tests to check multiplication answers
-#         self.assertEqual(0, multiply(5, 0))
-#         self.assertEqual(5, multiply(5, 1))
-#         self.assertRaises(TypeError, multiply('a','b')) #Checks a type error is raised if strings are used
-#         self.assertEqual("Value entered is not numeric", multiply("two", "one"))#Checks error message is being returend
+      
 #         
-#     def testSubtract(self):
-#         self.assertEqual(0, subtract(2, 2))     #Simple tests to check subtraction answers
-#         self.assertEqual(5, subtract(5, 0))
-#         self.assertEqual(-1, subtract(2, 3))
-#         self.assertEqual(0.5, subtract(1,0.5))
-#         self.assertAlmostEqual(0.1, subtract(0.5,0.4))  #I had to use alnost equal as floats were giving me 0.9999
-#         
-#     def testSquared(self):
-#         self.assertEqual(25, squared(5))
-#         self.assertEqual(16,squared(-4.0))
-#         self.assertRaises(ValueError, squared, 'Five') #test that value error is raised if type entered is not float or int
-#         
-#     def testCube(self):
-#         self.assertEqual(0.027,cube(0.3))   #simple tests to check return value is correct
-#         self.assertEqual(27,cube(3))
-#         self.assertEqual(-27,cube(-3))
-#         self.assertEqual(0,cube(0))
-#         
-#     def testFactorial(self):
-#         self.assertEqual(6, factorial(3))
-#         self.assertEqual(1, factorial(1))
-#         self.assertEqual("The factorial of 0 is 1", factorial(0)) #checks on screen message is displaying correctly
-#         self.assertEqual(120, factorial(5))
-#         self.assertEqual("Sorry, factorial does not exist for negative numbers", factorial(-5)) #checks message is raised when a negative number is entered
 #     
-#     def testMean(self):
-#         self.assertEqual(4, mean(5,4,3))                #simple tests on mean values returned
-#         self.assertEqual(5, mean(9,8,7,6,5,4,3,2,1))
-#         self.assertEqual(0.6, mean(0.4,0.6,0.8))
-#         
-#     def testDecimalFraction(self):
-#         self.assertEqual(0.5, decimalFraction(2))
-#         self.assertEqual(0.2, decimalFraction(subtract(10,5))) #test using two functions subtract and decimal fraction
-#         self.assertRaises(ZeroDivisionError, decimalFraction, 0) #Test that zerodivison error will be raised
 # =============================================================================
 
