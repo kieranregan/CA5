@@ -1,6 +1,6 @@
 import unittest
 
-from CA5 import add ,answerDivide#, exponent, multiply, subtract, squared, cube, factorial, mean, decimalFraction
+from CA5 import add, divide, exponent, ReduceMultiply, multiplyLambda, multiply#, subtract, squared, cube, factorial, mean, decimalFraction
 
 class CalculatorTest(unittest.TestCase):
 
@@ -11,25 +11,40 @@ class CalculatorTest(unittest.TestCase):
         #self.assertRaises(ValueError, add, 'Two','Three') #Test to ensure Value Error is raised if non numerics are entered
 
     def testDivide(self):
-         assert all([x/y for x,y in zip(listDivide1,listDivide2)])
-         self.assertEqual([5,2,3], answerDivide([10,4,6]),([2,2,2]))
-# =============================================================================
-#          self.assertEqual(4, divide(2, 0.5))
-#          self.assertEqual(5, divide(5, 1))
-#          self.assertIsInstance(divide(4.5,4.2), float) #Checks that a float is returned
-#          self.assertRaises(TypeError, divide, 'a','b') #Checks a type error is raised if strings are used
-#          self.assertEqual('Cannot divide by Zero', divide(5, 0)) #Test that checks "Cannot divide by Zero"mesage is displayed
-# =============================================================================
-# 
-#     def testExponent(self):
-#         self.assertEqual(32, exponent(2, 5))
-#         self.assertRaises(TypeError, exponent("two", "one")) #Checks type eror is raised if non numerics used
-#         self.assertEqual("Value entered is not numeric", exponent("two", "one"))#Checks error message is being returend
-#         self.assertEqual(2, exponent(4, 0.5))
-#         self.assertEqual(1, exponent(2, 0))
-#         self.assertEqual(0.125, exponent(2,-3))
-#         self.assertEqual(0, exponent(0, 2))
-#         
+        self.assertEqual([5,2,3], divide([10,4,6],[2,2,2])) #new test to check list input and output
+        self.assertEqual([5], divide([5], [1]))
+        self.assertIsInstance(divide([4.5],[4.2]), list) #Checks that a float is returned
+        self.assertRaises(TypeError, divide, 'a','b') #Checks a type error is raised if strings are used
+        self.assertEqual('Cannot divide by Zero', divide(5, 0)) #Test that checks "Cannot divide by Zero"mesage is displayed
+  
+    def testExponent(self):
+        self.assertEqual([4, 64,1296], exponent([2,4,6], [2,3,4])) # new test to check list input and output
+        self.assertEqual([32], exponent([2], [5]))
+        self.assertRaises(TypeError, exponent("two", "one")) #Checks type eror is raised if non numerics used
+        self.assertEqual("Value entered is not numeric", exponent("two", "one"))#Checks error message is being returend
+        self.assertEqual([2], exponent([4], [0.5]))
+        self.assertEqual([1], exponent([2], [0]))
+        self.assertEqual([0.125], exponent([2],[-3]))
+        self.assertEqual([0], exponent([0], [2]))
+        
+    #def testMutiplyReducer(self):
+        #self.assertEqual(24, ReduceMultiply([1,2,3,4]))
+        
+    #def testMultiplyLAMB(self):
+     #   self.assertEqual(20,90,18,8, multiplyLambda([5,10,6,4],[4,9,3,2]))
+        
+    def testMultiply(self):
+         #self.assertEqual([20,90,18,8], multiply([5,10,6,4], [4,9,3,2]))     #Simple Tests to check multiplication answers
+         self.assertEqual([0], multiply([5], [0]))
+         #self.assertEqual(5, multiply(5, 1))
+         #self.assertRaises(TypeError, multiply('a','b')) #Checks a type error is raised if strings are used
+         self.assertEqual("Value entered is not numeric", multiply(["two"], ["one"]))#Checks error message is being returend
+    
+
+if __name__ == "__main__":        
+    unittest.main()     
+
+
 #     def testMultiply(self):
 #         self.assertEqual(4, multiply(2, 2))     #Simple Tests to check multiplication answers
 #         self.assertEqual(0, multiply(5, 0))
@@ -73,5 +88,3 @@ class CalculatorTest(unittest.TestCase):
 #         self.assertRaises(ZeroDivisionError, decimalFraction, 0) #Test that zerodivison error will be raised
 # =============================================================================
 
-if __name__ == "__main__":
-    unittest.main() 

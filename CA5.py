@@ -1,4 +1,4 @@
-from functools import reduce
+from functools import reduce    #Need to import this to use reduce
 # =============================================================================
 # def add(first, second):
 #      number_types = (int,  float, complex) #allowed number tyoes for the function
@@ -8,29 +8,33 @@ from functools import reduce
 #          raise ValueError #if input is not allowed we will reaise a Value Error
 #      return first + second
 # =============================================================================
-###############Rewriting the add function using Lambda##########################
+###############(1) Rewriting the add function using Lambda##########################
 add = lambda first,second: first+second   #Rewrote Add Function using lambda
 print(add(2,3))
+
+
 ############################################################################################################### =============================================================================
 # def divide(first, second):   
 #     if second == 0:     #checking if second number entered is 0
 #         return 'Cannot divide by Zero'
 #     return first / second #if second number is not  we perform the addition
 # =============================================================================
-###########################Using List Comprehension to divide two lists by each other#########################
-# =============================================================================
-# def divide(first=[],second=[]):
-#     if second == 0:     #checking if second number entered is 0
-#          return 'Cannot divide by Zero'
-#     answerDivide = [x/y for x,y in zip(first,second)]#I needed to use zip to produce a list of the smae size
-#     return answerDivide     #print(answerDivide)
-# 
-# =============================================================================
 
+########################(2)Using List Comprehension to divide two lists by each other#########################
+# =============================================================================
+def divide(first,second):               #I have used the function layout so I can reuse my tests
+    if second == 0:     #checking if second number entered is 0
+        return 'Cannot divide by Zero' 
+    return [x/y for x,y in zip(first,second)]#I needed to use zip to produce a list of the saae size
+    
+# ===============######This is how I would implement it without putting it in a function:=================================================
 listDivide1 = [10,8,6]          #creating two lists of numbers
 listDivide2 = [2,4,3]
+
 answerDivide = [x/y for x,y in zip(listDivide1,listDivide2)]#I needed to use zip to produce a list of the smae size
+print(type(answerDivide))
 print(answerDivide)
+
 ##############################################################################################################
 
 # =============================================================================
@@ -40,30 +44,50 @@ print(answerDivide)
 #     except TypeError:               #if non numerics entered the exception is raised
 #         return "Value entered is not numeric"
 # =============================================================================
-
-###########################Rewriting Exponent Function using list comprehension############################### 
+#######################(3)  Rewriting Exponent Function using list comprehension############################### 
+#-=================Below is how I would write it without putting it in a fucntion
 exponent1 = [2,4,6]
 exponent2 = [2,3,4]    
 exponentAnswer = [x**y for x,y in zip(exponent1,exponent2)]
 print(exponentAnswer)   
+
+#----------------------------Putting it in the function from CA1 so I can reuse the tests
+def exponent(first, second):
+    try:                            #try except block of code
+        return [x**y for x,y in zip(first,second)]
+    except TypeError:               #if non numerics entered the exception is raised
+        return "Value entered is not numeric"
+
+
 ##############################################################################################################
 # =============================================================================
-# def multiply(first, second):
-#     try:
-#         return first * second
-#     except TypeError:
-#         return "Value entered is not numeric"
+def multiply(first, second):
+     try:
+         multiplyLambda = lambda first, second: first*second  #multiply formula using lambda
+         return list(map(multiplyLambda, nosToMultiply1, nosToMultiply2))   #casting map output to a list
+     except TypeError:
+         return "Value entered is not numeric"
+     
+
+def multiply2(listToReduce):
+     try:
+         ReduceMultiply = reduce(lambda first,second: first*second, [1,2,3,4])
+         return ReduceMultiply
+     except TypeError:
+         return "Value entered is not numeric"
 # =============================================================================
     
-########################Rewriting the Multiply function to reduce a list of numbers###########################    
+#####################(4)    Rewriting the Multiply function to reduce a list of numbers###########################    
 ReduceMultiply = reduce(lambda first,second: first*second, [1,2,3,4]) #for python 3 we ust ise functools.reduce
+print("Reducer:")
 print(ReduceMultiply)
+print("Break!")
 
 
-#####################Rewriting thge Multiply function to multiply two lists and keep list format###############
+#########Rewriting thge Multiply function using map and lambda to multiply two lists and keep list format###############
 nosToMultiply1 = [5,10,6,4] #list of first numbers
 nosToMultiply2 = [4,9,3,2]  #list of second numbers
-multiplyLambda = lambda first, second: first*second  #subtraction formula using lambda
+multiplyLambda = lambda first, second: first*second  #multiply formula using lambda
 for i in map(multiplyLambda, nosToMultiply1, nosToMultiply2):   #using map without list
     print(i)
 ##############################################################################################################    
